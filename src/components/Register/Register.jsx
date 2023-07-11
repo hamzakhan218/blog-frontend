@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import logo from "../../assets/logo.jpg";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../../context/AuthContext";
 
 function Register() {
   const { register, handleSubmit } = useForm();
+  const { registerUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const handleRegister = (data) => {
-    console.log(data);
+  const handleRegister = async (data) => {
+    await registerUser(data);
+    navigate("/login", { replace: true });
   };
   return (
     <div className="grid">

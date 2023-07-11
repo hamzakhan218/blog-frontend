@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import logo from "../../assets/logo.jpg";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../../context/AuthContext";
 
 function Login() {
   const { register, handleSubmit } = useForm();
+  const navigate = useNavigate();
+  const { loginUser } = useContext(AuthContext);
 
-  const handleLogin = (data) => {
-    console.log(data);
+  const handleLogin = async (data) => {
+    await loginUser(data);
+    navigate("/", { replace: true });
   };
-
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/", { replace: true });
+    }
+  }, []);
   return (
     <div className="grid">
       <div className="flex px-">
